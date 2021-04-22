@@ -169,7 +169,8 @@ The following environment variables can be used:
 
 # License
 
-View the [End User License Agreement](https://www.gurobi.com/wp-content/uploads/2020/11/EULA_standard.pdf) for the software contained in this image.
+By downloading and using this image, you agree with the 
+[End-User License Agreement](https://www.gurobi.com/EULA) for the Gurobi software contained in this image.
 
 As with all Docker images, these likely also contain other software which may be under other
 licenses (such as Bash, etc from the base distribution, along with any direct or indirect
