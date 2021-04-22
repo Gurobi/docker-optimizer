@@ -5,8 +5,12 @@ Maintained by: [Gurobi Optimization](https://www.gurobi.com)
 Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Documentation](https://www.gurobi.com/documentation/)
 
 # Supported tags and respective Dockerfile links
-## Simple Tags
-* [9.1.1, latest](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.1/Dockerfile)
+
+* [9.1.2, latest](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.2/Dockerfile)
+* [9.1.1](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.1/Dockerfile)
+
+When building a production application, we recommend using an explicit version number instead of the `latest` tag.
+This way, you are in control of the upgrade process of your application.
 
 # Quick reference (cont.)
 
@@ -67,13 +71,14 @@ connect to a Compute Server cluster, the Gurobi Cloud, or a token server. To do 
 you have the following options:
 * Mounting the client license file:
 A client license file (usually called `gurobi.lic`) contains connection 
-parameters. It can be mounted to the container. This option provides a simple approach for testing.
+parameters. It can be mounted to the container. 
+This option provides a simple approach for testing with Docker.
+When using Kubernetes, the license file can be stored as a secret and mounted in the container.
 
 * Setting parameters with the API:
 When your application creates a [Gurobi environment](https://www.gurobi.com/documentation/current/refman/index.html), 
 you can specify connection parameters through the API. The parameter values can come from 
 environment variables, a database or from other sources as required by your application. 
-This is the recommended approach for production applications.
 
 A quick guide to the appropriate API parameters and license file properties is available [here](https://github.com/Gurobi/docker-optimizer/blob/master/PARAMS.md).
 
@@ -93,7 +98,9 @@ See some [model examples](https://github.com/Gurobi/docker-optimizer/tree/master
     
 # How to use this image?
 
-## Start a `gurobi/optimizer` shell instance
+## Using Docker
+
+### Start a `gurobi/optimizer` shell instance
 ```console
 $ docker run --volume=$PWD/gurobi.lic:/opt/gurobi/gurobi.lic:ro  \
              --volume=$PWD/models:/models \
@@ -110,7 +117,7 @@ gurobi> m.optimize()
 
 ```
 
-## Optimizing with a `gurobi/optimizer` instance
+### Optimizing with a `gurobi/optimizer` instance
 
 The following command line starts the `gurobi/optimizer` container, mounts a directory
 that contains a few local models, and then it optimizes the model `stein9.mps`:
@@ -130,7 +137,7 @@ $ docker run --env=GRB_CLIENT_LOG=3 \
              gurobi/optimizer /models/poolsearch.py
 ```
 
-## ... via docker stack deploy or docker-compose
+## Using Docker Compose
 Example `docker-compose.yml` for a Gurobi python instance:
 
 ```
@@ -145,6 +152,12 @@ services:
 ```
 
 Run `$ docker-compose run optimizer /models/poolsearch.py `
+
+## Using Kubernetes
+
+Kubernetes can be used to deploy applications or servers in a cluster. To do
+so, you can use this image as a base image while adding your specific components
+and dependencies (see below). 
 
 ## How to use this image as a base image?
 This image can also be used as a base image for applications using Gurobi.
