@@ -82,6 +82,10 @@ environment variables, a database or from other sources as required by your appl
 
 A quick guide to the appropriate API parameters and license file properties is available [here](https://github.com/Gurobi/docker-optimizer/blob/master/PARAMS.md).
 
+We do not recommend adding the license file to the Docker image itself. It is not a flexible 
+solution as you may not reuse the same image with different settings. More importantly, it is not secure
+as some license files need to contain credentials in the form of API keys that should remain private.
+
 ## Testing with model examples 
 In the following command-line examples, we will run model files stored on 
 your local machines. The model files must be stored in a local directory that
