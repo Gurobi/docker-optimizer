@@ -43,13 +43,21 @@ we recommend using the `gurobi/python` [image](https://hub.docker.com/r/gurobi/p
 The Gurobi Optimizer requires a license.  To run it in a Docker container, you have
 a few options:
 
+* The [Web License Service](https://www.gurobi.com/web-license-service/) (WLS) is a new Gurobi licensing service 
+  for containerized environments (Docker, Kubernetes...). Gurobi components can automatically request and renew license tokens to 
+  the WLS servers available in several regions worldwide. WLS only requires that your container has access to the 
+  Internet. Commercial users can request an evaluation and academic users can request a free license.
+  Please register to access the [Web License Manager](https://license.gurobi.com) and read the
+  [documentation](https://license.gurobi.com/manager/doc/overview)
+
 * A [Gurobi Compute Server](https://www.gurobi.com/products/gurobi-compute-server/) 
 allows you to seamlessly offload your optimization computations onto one or more dedicated 
 optimization servers grouped in a cluster. Users and applications can share the servers 
 thanks to advanced queuing and load balancing capabilities. Users can monitor jobs, and 
 administrators can manage the servers. The cluster manager provides additional features
-and security management. The Compute Server, and the Cluster Manager must 
-be installed outside of the Docker cluster.
+and security management. The Compute Server, and the Cluster Manager can 
+be installed outside of the containerized environment using a standard license, or within the 
+containerized environment with a WLS license.
 
 * The [Gurobi Cloud](https://www.gurobi.com/products/gurobi-instant-cloud/) is a simple and 
 cost-effective way to get up and running with powerful Gurobi optimization software running 
@@ -60,9 +68,8 @@ software and dedicated to you on Microsoft Azure® and Amazon Web Services®.
 runs on a dedicated machine outside of the Docker cluster. Client programs running in
 Docker containers can request tokens from the token server.
 
-* Please contact your sales representative at [sales@gurobi.com](mailto:sales@gurobi.com) to discuss additional options. 
-
-Note that other standard license types (NODE, Academic) do not work with Docker.
+Note that other standard license types (NODE, Academic) do not work with containers.
+Please contact your sales representative at [sales@gurobi.com](mailto:sales@gurobi.com) to discuss licensing options. 
 
 ## Using the client license
 
@@ -101,6 +108,37 @@ See some [model examples](https://github.com/Gurobi/docker-optimizer/tree/master
     
     
 # How to use this image?
+
+## Building a custom image
+
+This image can be used directly for some tests, but the main goal is to help build applications using 
+the Gurobi API. This image can be used as a base image, and specific application dependencies 
+can be added. Here is an example of a `Dokerfile`:
+
+File `Dockerfile`
+```
+# Indicate the Gurobi reference image
+FROM gurobi/optimizer:9.1.2
+
+# Set the application directory
+WORKDIR /app
+
+# Copy the application code 
+ADD . /app
+
+# Command used to start the application
+CMD [...]
+```
+
+Once the custom image is built, it can be deployed using Docker, Docker Compose
+or Kubernetes.
+```
+docker build -t my-gurobi-app .
+```
+
+As already mentioned, the license file should not be copied into the image, and we will 
+give example about how to mount the license file in the next sections.
+
 
 ## Using Docker
 
@@ -141,41 +179,120 @@ $ docker run --env=GRB_CLIENT_LOG=3 \
              gurobi/optimizer /models/poolsearch.py
 ```
 
+### Optimizing with a custom application
+
+If you have built a custom image, you can apply the same concepts:
+```console
+$ docker run --env=GRB_CLIENT_LOG=3  \
+             --volume=$PWD/gurobi.lic:/opt/gurobi/gurobi.lic:ro \
+             my-gurobi-app
+```
+
 ## Using Docker Compose
+
+Docker Compose can be used if your application requires different components (database, 
+frontend WebUI, backend services...). Docker Compose will help build and connect these 
+components.  For a local test, you can mount the license file as a volume.
+
 Example `docker-compose.yml` for a Gurobi python instance:
 
 ```
 version: '3.7'
 services:
-  optimizer:
-    image: gurobi/python:latest
+  gurobi:
+    image: my-gurobi-app
     volumes:
-      - ./models:/models:ro
       - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro
 
 ```
 
-Run `$ docker-compose run optimizer /models/poolsearch.py `
+Run `$ docker-compose up --build ` to build and run you application.
 
 ## Using Kubernetes
 
-Kubernetes can be used to deploy applications or servers in a cluster. To do
-so, you can use this image as a base image while adding your specific components
-and dependencies (see below). 
+In a similar way, Kubernetes can be used to deploy your application in a cluster. 
+Here is an example of a deployment descriptor `deployment.yaml` for an application using 
+the custom image `my-gurobi-app`:
 
-## How to use this image as a base image?
-This image can also be used as a base image for applications using Gurobi.
-
-
-File `Dockerfile`
 ```
-FROM gurobi/optimizer:latest
-...
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: optim
+  labels:
+    name: optim
+spec:
+  selector:
+    matchLabels:
+      name: optim
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: optim
+    spec:
+      volumes:
+        - name: gurobi-lic
+          secret:
+            secretName: gurobi-lic
+      containers:
+        - name: optim
+          image: my-gurobi-app
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: gurobi-lic
+              mountPath: "/opt/gurobi"
+              readOnly: true
+```
 
-RUN ...
+Before deploying your application, we recommend storing the license file as a secret and
+mounting it inside the container.
+```
+kubectl create secret generic gurobi-lic --from-file="gurobi.lic=$PWD/gurobi.lic"
+kubectl apply -f deployment.yaml
+```
 
-...
+If you are deploying your custom image and using the [Cluster Manager](https://hub.docker.com/r/gurobi/manager) 
+within the same cluster, you will need to connect your application to the Cluster Manager.
+To do so, we recommend the following:
+- Create a system user in the Cluster Manager and generate an API key.
+- Declare the API key as a secret.
+```
+kubectl create secret generic gurobi-manager --from-literal=accessId=xxxxx --from-literal=secret=xxxxxx
+```
+- Use environment variables to pass the API key and the manager URL.
+```
+          env:
+            - name: GRB_CSMANAGER
+              value: "http://$(GUROBI_MANAGER_SERVICE_HOST):$(GUROBI_MANAGER_SERVICE_PORT)"
+            - name: GRB_CSAPIACCESSID
+              valueFrom:
+                secretKeyRef:
+                  name: gurobi-manager
+                  key: accessId
+            - name: GRB_CSAPISECRET
+              valueFrom:
+                secretKeyRef:
+                  name: gurobi-manager
+                  key: secret
+```
+- Finally, in your application, assign the Gurobi environment parameters from the variables, here is an 
+example with Python:
+```
+        env = Env(empty=True)
+        csManager = os.getenv('GRB_CSMANAGER','')
+        if csManager:
+            env.setParam('CSManager', csManager)
 
+        csAPIAccessId = os.getenv('GRB_CSAPIACCESSID','')
+        if csAPIAccessId:
+            env.setParam('CSAPIAccessID', csAPIAccessId)
+
+        csAPISecret = os.getenv('GRB_CSAPISECRET','')
+        if csAPISecret:
+            env.setParam('CSAPISecret', csAPISecret)
+
+        env.start()
 ```
 
 ## Environment Variables

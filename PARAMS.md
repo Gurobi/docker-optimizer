@@ -4,6 +4,15 @@ in the API or by using a client license file. The full list of parameters can be
 in the [reference manual](https://www.gurobi.com/documentation/current/refman/parameters.html).
 The following sections gives a quick guide to map license file to parameters.
 
+# Connection to Gurobi Web License Service (WLS)
+
+| Parameter	| License File |Purpose|
+|-----------|--------------|-------|
+|WLSAccessID | WLSACCESSID  | Access ID for Gurobi Web License Service (mandatory)
+|WLSSecretKey| WLSSECRETKEY | Secret Key for Gurobi Web License Service (mandatory)
+|LicenseID   | LICENSEID    | Type Integer, License ID for Gurobi Web License Service (mandatory)
+|WLSTokenDuration   | WLSTOKENDURATION    | Token Duration
+
 # Connection to Gurobi Cloud
 
 | Parameter	| License File |Purpose|
