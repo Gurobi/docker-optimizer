@@ -9,7 +9,7 @@ The following sections gives a quick guide to map license file to parameters.
 | Parameter	| License File |Purpose|
 |-----------|--------------|-------|
 |WLSAccessID | WLSACCESSID  | Access ID for Gurobi Web License Service (mandatory)
-|WLSSecretKey| WLSSECRETKEY | Secret Key for Gurobi Web License Service (mandatory)
+|WLSSecret| WLSSECRET | Secret Key for Gurobi Web License Service (mandatory)
 |LicenseID   | LICENSEID    | Type Integer, License ID for Gurobi Web License Service (mandatory)
 |WLSTokenDuration   | WLSTOKENDURATION    | Token Duration
 
