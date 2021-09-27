@@ -3,8 +3,8 @@
 #
 
 FROM ubuntu:20.04 as buildoptimizer
-ARG GRB_VERSION=9.1.2
-ARG GRB_SHORT_VERSION=9.1
+ARG GRB_VERSION=9.5.0beta
+ARG GRB_SHORT_VERSION=9.5beta
 
 # install gurobi package and copy the files
 WORKDIR /opt
@@ -14,16 +14,17 @@ RUN apt-get update \
        ca-certificates  \
        wget \
     && update-ca-certificates \
-    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_linux64.tar.gz \
+#   && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_linux64.tar.gz \
+    && wget -v https://download.gurobi.com/api/public/dl/MYFBOhpu/gurobi${GRB_VERSION}_linux64.tar.gz \
     && tar -xvf gurobi${GRB_VERSION}_linux64.tar.gz  \
     && rm -f gurobi${GRB_VERSION}_linux64.tar.gz \
     && mv -f gurobi* gurobi \
     && rm -rf gurobi/linux64/docs
 
 # After the file renaming, a clean image is build
-FROM python:3.7-slim AS packageoptimizer
+FROM python:3.8 AS packageoptimizer
 
-ARG GRB_VERSION=9.1.2
+ARG GRB_VERSION=9.5.0beta
 
 LABEL vendor="Gurobi"
 LABEL version=${GRB_VERSION}

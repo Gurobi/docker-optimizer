@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python3.8
 
 # Copyright 2020, Gurobi Optimization, LLC
 
