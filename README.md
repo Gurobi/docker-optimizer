@@ -6,8 +6,8 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 
 # Supported tags and respective Dockerfile links
 
-* [9.1.2, latest](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.2/Dockerfile)
-* [9.1.1](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.1/Dockerfile)
+* [9.5.0, latest](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.0/Dockerfile)
+* [9.1.2](https://github.com/Gurobi/docker-optimizer/blob/master/9.1.2/Dockerfile)
 
 When building a production application, we recommend using an explicit version number instead of the `latest` tag.
 This way, you are in control of the upgrade process of your application.
@@ -119,7 +119,7 @@ can be added. Here is an example of a `Dokerfile`:
 File `Dockerfile`
 ```
 # Indicate the Gurobi reference image
-FROM gurobi/optimizer:9.1.2
+FROM gurobi/optimizer:latest
 
 # Set the application directory
 WORKDIR /app
