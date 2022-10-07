@@ -22,7 +22,7 @@ RUN apt-get update \
     && rm -rf gurobi/linux64/docs
 
 # After the file renaming, a clean image is build
-FROM python:3.8 AS packageoptimizer
+FROM python:3.10-slim-bullseye AS packageoptimizer
 
 ARG GRB_VERSION=10.0.0beta1
 
