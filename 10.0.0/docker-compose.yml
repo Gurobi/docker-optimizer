@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   optimizer:
-    image: gurobi/optimizer:10.0.0beta
+    image: gurobi/optimizer:10.0.0
     volumes:
       - ./models:/models:ro
       - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro

@@ -3,8 +3,8 @@
 #
 
 FROM ubuntu:20.04 as buildoptimizer
-ARG GRB_VERSION=10.0.0beta1
-ARG GRB_SHORT_VERSION=10.0beta1
+ARG GRB_VERSION=10.0.0
+ARG GRB_SHORT_VERSION=10.0
 
 # install gurobi package and copy the files
 WORKDIR /opt
@@ -14,8 +14,7 @@ RUN apt-get update \
        ca-certificates  \
        wget \
     && update-ca-certificates \
-    && wget -v https://download.gurobi.com/api/public/dl/mmH4PU3s/gurobi10.0.0beta1_linux64.tar.gz \
-    #&& wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_linux64.tar.gz \
+    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_linux64.tar.gz \
     && tar -xvf gurobi${GRB_VERSION}_linux64.tar.gz  \
     && rm -f gurobi${GRB_VERSION}_linux64.tar.gz \
     && mv -f gurobi* gurobi \
@@ -24,7 +23,7 @@ RUN apt-get update \
 # After the file renaming, a clean image is build
 FROM python:3.10-slim-bullseye AS packageoptimizer
 
-ARG GRB_VERSION=10.0.0beta1
+ARG GRB_VERSION=10.0.0
 
 LABEL vendor="Gurobi"
 LABEL version=${GRB_VERSION}
