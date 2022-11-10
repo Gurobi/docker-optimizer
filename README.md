@@ -1,4 +1,4 @@
-![Logo](https://www.gurobi.com/wp-content/uploads/2018/12/logo-final.png "Gurobi Optimization")
+![Logo](https://cdn.gurobi.com/wp-content/uploads/GurobiLogo_Black.svg "Gurobi Optimization")
 # Quick reference
 Maintained by: [Gurobi Optimization](https://www.gurobi.com)
 
