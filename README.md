@@ -7,7 +7,7 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 # Supported tags and respective Dockerfile links
 
 * [10.0.0, latest](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.0/Dockerfile)
-* [9.5.2, latest](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.2/Dockerfile)
+* [9.5.2](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.2/Dockerfile)
 * [9.5.1](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.1/Dockerfile)
 * [9.5.0](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.0/Dockerfile)
 
