@@ -6,7 +6,8 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 
 # Supported tags and respective Dockerfile links
 
-* [10.0.0, latest](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.0/Dockerfile)
+* [10.0.1, latest](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.1/Dockerfile)
+* [10.0.0](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.0/Dockerfile)
 * [9.5.2](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.2/Dockerfile)
 * [9.5.1](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.1/Dockerfile)
 * [9.5.0](https://github.com/Gurobi/docker-optimizer/blob/master/9.5.0/Dockerfile)
@@ -203,7 +204,7 @@ Example `docker-compose.yml` for a Gurobi python instance:
 version: '3.7'
 services:
   gurobi:
-    image: my-gurobi-app
+    image: <your-own-custom-image>
     volumes:
       - ./gurobi.lic:/opt/gurobi/gurobi.lic:ro
 
@@ -215,7 +216,7 @@ Run `$ docker-compose up --build ` to build and run you application.
 
 In a similar way, Kubernetes can be used to deploy your application in a cluster. 
 Here is an example of a deployment descriptor `deployment.yaml` for an application using 
-the custom image `my-gurobi-app`:
+the custom image `<your-own-custom-image>`:
 
 ```
 apiVersion: apps/v1
@@ -240,12 +241,15 @@ spec:
             secretName: gurobi-lic
       containers:
         - name: optim
-          image: my-gurobi-app
+          image: <your-own-custom-image>
           imagePullPolicy: IfNotPresent
-          volumeMounts:
-            - name: gurobi-lic
-              mountPath: "/opt/gurobi"
-              readOnly: true
+      volumeMounts:
+        - name: gurobi-lic
+          mountPath: "/opt/gurobi_lic"
+          readOnly: true
+      env:
+        - name: GRB_LICENSE_FILE
+          value: "/opt/gurobi_lic/gurobi.lic"
 ```
 
 Before deploying your application, we recommend storing the license file as a secret and
