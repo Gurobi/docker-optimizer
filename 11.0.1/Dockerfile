@@ -5,20 +5,32 @@
 FROM ubuntu:20.04 as buildoptimizer
 ARG GRB_VERSION=11.0.1
 ARG GRB_SHORT_VERSION=11.0
+ARG TARGETPLATFORM
+
+# Create a script to determine GRB_PLATFORM based on TARGETPLATFORM
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        echo "armlinux64" > /platform.txt; \
+      else \
+        echo "linux64" > /platform.txt; \
+    fi
+
+ENV GRB_PLATFORM=${GRB_PLATFORM}
 
 # install gurobi package and copy the files
 WORKDIR /opt
 
-RUN apt-get update \
+RUN export GRB_PLATFORM=$(cat /platform.txt) && echo $GRB_PLATFORM \
+    &&apt-get update \
     && apt-get install --no-install-recommends -y\
        ca-certificates  \
        wget \
     && update-ca-certificates \
-    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_linux64.tar.gz \
-    && tar -xvf gurobi${GRB_VERSION}_linux64.tar.gz  \
-    && rm -f gurobi${GRB_VERSION}_linux64.tar.gz \
+    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz \
+    && tar -xvf gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz  \
+    && rm -f gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz \
     && mv -f gurobi* gurobi \
-    && rm -rf gurobi/linux64/docs
+    && rm -rf gurobi/$GRB_PLATFORM/docs \
+    && mv -f gurobi/$GRB_PLATFORM*  gurobi/linux
 
 # After the file renaming, a clean image is build
 FROM python:3.10-slim-bullseye AS packageoptimizer
@@ -41,11 +53,11 @@ RUN apt-get update \
 WORKDIR /opt/gurobi
 COPY --from=buildoptimizer /opt/gurobi .
 
-ENV GUROBI_HOME /opt/gurobi/linux64
+ENV GUROBI_HOME /opt/gurobi/linux
 ENV PATH $PATH:$GUROBI_HOME/bin
 ENV LD_LIBRARY_PATH $GUROBI_HOME/lib
 
-WORKDIR /opt/gurobi/linux64
+WORKDIR /opt/gurobi/linux
 
 
 CMD ["gurobi.sh"]
