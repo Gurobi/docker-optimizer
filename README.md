@@ -7,7 +7,7 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 # Supported tags and respective Dockerfile links
 
 * [11.0.3, latest](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.3/Dockerfile)
-* [11.0.2, latest](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.2/Dockerfile)
+* [11.0.2](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.2/Dockerfile)
 * [11.0.1](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.1/Dockerfile)
 * [11.0.0](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.0/Dockerfile)
 * [10.0.3](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.3/Dockerfile)
