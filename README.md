@@ -23,7 +23,7 @@ This way, you are in control of the upgrade process of your application.
 
 # Quick reference (cont.)
 
-Supported architectures: linux amd64
+Supported architectures: linux/amd64, linux/arm64
 
 Published image artifact details: https://github.com/Gurobi/docker-optimizer
 
