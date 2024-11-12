@@ -3,7 +3,7 @@
 #
 
 FROM ubuntu:20.04 as buildoptimizer
-ARG GRB_VERSION=12.0.0beta
+ARG GRB_VERSION=12.0.0
 ARG GRB_SHORT_VERSION=12.0
 ARG TARGETPLATFORM
 
@@ -21,8 +21,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
       else \
         export GRB_PLATFORM="linux64"; \
     fi \
-    && wget -v https://download.gurobi.com/api/public/dl/YzN2b_KQ/gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz \
-#    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz \
+    && wget -v https://packages.gurobi.com/${GRB_SHORT_VERSION}/gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz \
     && tar -xvf gurobi${GRB_VERSION}_$GRB_PLATFORM.tar.gz  \
     && rm *.tar.gz \
     && mv -f gurobi* gurobi \
@@ -31,7 +30,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
 # After the file renaming, a clean image is build
 FROM python:3.10-slim-bullseye AS packageoptimizer
 
-ARG GRB_VERSION=12.0.0b3
+ARG GRB_VERSION=12.0.0
 
 LABEL vendor="Gurobi"
 LABEL version=${GRB_VERSION}
