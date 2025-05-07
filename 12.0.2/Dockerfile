@@ -28,7 +28,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
     && mv -f gurobi/$GRB_PLATFORM*  gurobi/linux
 
 # After the file renaming, a clean image is build
-FROM python:3.10-slim-bullseye AS packageoptimizer
+FROM python:3.10-slim-bookworm AS packageoptimizer
 
 ARG GRB_VERSION=12.0.2
 
