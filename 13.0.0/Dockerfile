@@ -30,7 +30,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
 # After the file renaming, a clean image is build
 FROM python:3.10-slim-bookworm AS packageoptimizer
 
-ARG GRB_VERSION=13.0.0beta1
+ARG GRB_VERSION=13.0.0b1
 
 LABEL vendor="Gurobi"
 LABEL version=${GRB_VERSION}
@@ -54,5 +54,4 @@ ENV LD_LIBRARY_PATH $GUROBI_HOME/lib
 
 WORKDIR /opt/gurobi/linux
 
-
-CMD ["gurobi.sh"]
+CMD ["gurobi_cl"]

@@ -157,23 +157,6 @@ give example about how to mount the license file in the next sections.
 
 ## Using Docker
 
-### Start a `gurobi/optimizer` shell instance
-```console
-$ docker run --volume=$PWD/gurobi.lic:/opt/gurobi/gurobi.lic:ro  \
-             --volume=$PWD/models:/models \
-             -it gurobi/optimizer
-```
-
-... where `$PWD` is the current directory.
-
-Then run in the console:
-```console
-gurobi> m = read('/models/stein9.mps')
-
-gurobi> m.optimize()
-
-```
-
 ### Optimizing with a `gurobi/optimizer` instance
 
 The following command line starts the `gurobi/optimizer` container, mounts a directory
