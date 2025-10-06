@@ -1,6 +1,6 @@
 #
 # Docker file to create a Python Environment
-#
+
 
 FROM ubuntu:24.04 as buildoptimizer
 ARG GRB_VERSION=13.0.0beta
