@@ -3,7 +3,7 @@
 
 
 FROM ubuntu:24.04 as buildoptimizer
-ARG GRB_VERSION=13.0.0beta
+ARG GRB_VERSION=13.0.0
 ARG GRB_SHORT_VERSION=13.0
 ARG TARGETPLATFORM
 
@@ -30,7 +30,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
 # After the file renaming, a clean image is build
 FROM python:3.10-slim-bookworm AS packageoptimizer
 
-ARG GRB_VERSION=13.0.0b1
+ARG GRB_VERSION=13.0.0
 
 LABEL vendor="Gurobi"
 LABEL version=${GRB_VERSION}
