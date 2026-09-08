@@ -31,7 +31,7 @@ RUN export GRB_PLATFORM=$(cat /platform.txt) && echo $GRB_PLATFORM \
     && mv -f gurobi/$GRB_PLATFORM*  gurobi/linux
 
 # After the file renaming, a clean image is build
-FROM python:3.10-slim-bullseye AS packageoptimizer
+FROM python:3.10-slim-bookworm AS packageoptimizer
 
 ARG GRB_VERSION=11.0.1
 
