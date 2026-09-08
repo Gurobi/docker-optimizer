@@ -6,6 +6,8 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 
 # Supported tags and respective Dockerfile links
 
+See Gurobi's [release and support history](https://support.gurobi.com/hc/en-us/articles/360048138771-Gurobi-release-and-support-history) for which versions are actively supported. All 11.0.x, 12.0.x, and 13.0.x images below are rebuilt on a regular basis to pick up updated base-image dependencies. Versions before 11.0.0 are no longer supported and are listed below for reference only — those images are not rebuilt, so any base-image vulnerabilities reported against them will not be patched.
+
 * [13.0.3, latest](https://github.com/Gurobi/docker-optimizer/blob/master/13.0.3/Dockerfile)
 * [13.0.2](https://github.com/Gurobi/docker-optimizer/blob/master/13.0.2/Dockerfile)
 * [13.0.1](https://github.com/Gurobi/docker-optimizer/blob/master/13.0.1/Dockerfile)
@@ -18,6 +20,8 @@ Where to get help: [Gurobi Support](https://www.gurobi.com/support/), [Gurobi Do
 * [11.0.2](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.2/Dockerfile)
 * [11.0.1](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.1/Dockerfile)
 * [11.0.0](https://github.com/Gurobi/docker-optimizer/blob/master/11.0.0/Dockerfile)
+
+**Unsupported (no longer rebuilt):**
 * [10.0.3](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.3/Dockerfile)
 * [10.0.2](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.2/Dockerfile)
 * [10.0.1](https://github.com/Gurobi/docker-optimizer/blob/master/10.0.1/Dockerfile)
