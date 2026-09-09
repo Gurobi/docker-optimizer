@@ -52,7 +52,7 @@ The Gurobi Optimizer is the fastest and most powerful mathematical programming s
 for your LP, QP and MIP (MILP, MIQP, and MIQCP) problems.
 More info at the [Gurobi Website](https://www.gurobi.com/products/gurobi-optimizer/).
 
-The Gurobi Optimizer supports of a wide range of programming and modeling languages, see 
+The Gurobi Optimizer supports a wide range of programming and modeling languages, see 
 the [reference manual](https://www.gurobi.com/documentation/current/refman/index.html).
 
 The `gurobi/optimizer` image provides a base Docker image for building applications using any of
@@ -135,7 +135,7 @@ See some [model examples](https://github.com/Gurobi/docker-optimizer/tree/master
 
 This image can be used directly for some tests, but the main goal is to help build applications using 
 the Gurobi API. This image can be used as a base image, and specific application dependencies 
-can be added. Here is an example of a `Dokerfile`:
+can be added. Here is an example of a `Dockerfile`:
 
 File `Dockerfile`
 ```
@@ -159,7 +159,7 @@ docker build -t my-gurobi-app .
 ```
 
 As already mentioned, the license file should not be copied into the image, and we will 
-give example about how to mount the license file in the next sections.
+give an example of how to mount the license file in the next sections.
 
 
 ## Using Docker
@@ -211,7 +211,7 @@ services:
 
 ```
 
-Run `$ docker-compose up --build ` to build and run you application.
+Run `$ docker-compose up --build ` to build and run your application.
 
 ## Using Kubernetes
 
